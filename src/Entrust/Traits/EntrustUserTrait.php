@@ -29,24 +29,21 @@ trait EntrustUserTrait
     }
     public function save(array $options = [])
     {   //both inserts and updates
-        if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.role_user_table'))->flush();
-        }
-        return parent::save($options);
+        $result = parent::save($options);
+        Cache::tags(Config::get('entrust.role_user_table'))->flush();
+        return $result;
     }
     public function delete(array $options = [])
     {   //soft or hard
-        parent::delete($options);
-        if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.role_user_table'))->flush();
-        }
+        $result = parent::delete($options);
+        Cache::tags(Config::get('entrust.role_user_table'))->flush();
+        return $result;
     }
     public function restore()
     {   //soft delete undo's
-        parent::restore();
-        if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.role_user_table'))->flush();
-        }
+        $result = parent::restore();
+        Cache::tags(Config::get('entrust.role_user_table'))->flush();
+        return $result;
     }
 
     /**

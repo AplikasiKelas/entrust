@@ -28,33 +28,21 @@ trait EntrustRoleTrait
     }
     public function save(array $options = [])
     {   //both inserts and updates
-        if(!parent::save($options)){
-            return false;
-        }
-        if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.permission_role_table'))->flush();
-        }
-        return true;
+        $result = parent::save($options);
+        Cache::tags(Config::get('entrust.permission_role_table'))->flush();
+        return $result;
     }
     public function delete(array $options = [])
     {   //soft or hard
-        if(!parent::delete($options)){
-            return false;
-        }
-        if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.permission_role_table'))->flush();
-        }
-        return true;
+        $result = parent::delete($options);
+        Cache::tags(Config::get('entrust.permission_role_table'))->flush();
+        return $result;
     }
     public function restore()
     {   //soft delete undo's
-        if(!parent::restore()){
-            return false;
-        }
-        if(Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.permission_role_table'))->flush();
-        }
-        return true;
+        $result = parent::restore();
+        Cache::tags(Config::get('entrust.permission_role_table'))->flush();
+        return $result;
     }
 
     /**
